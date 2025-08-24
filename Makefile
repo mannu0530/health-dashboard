@@ -45,6 +45,16 @@ build-lightweight:
 	@echo "Building lightweight Docker images for 2GB servers..."
 	DOCKER_BUILDKIT=1 docker-compose -f docker-compose.lightweight.yml build --parallel
 
+build-ultra-lightweight:
+	@echo "Building ultra-lightweight Docker images for 2GB servers..."
+	chmod +x build-ultra-lightweight.sh
+	./build-ultra-lightweight.sh
+
+solve-memory:
+	@echo "Solving memory issues with multiple strategies..."
+	chmod +x solve-memory-issue.sh
+	./solve-memory-issue.sh
+
 up-lightweight:
 	@echo "Starting lightweight Health Dashboard services..."
 	docker-compose -f docker-compose.lightweight.yml up -d
