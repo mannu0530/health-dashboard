@@ -41,6 +41,18 @@ build-fast:
 	@echo "Building Docker images with BuildKit optimizations..."
 	DOCKER_BUILDKIT=1 docker-compose build --parallel
 
+build-lightweight:
+	@echo "Building lightweight Docker images for 2GB servers..."
+	DOCKER_BUILDKIT=1 docker-compose -f docker-compose.lightweight.yml build --parallel
+
+up-lightweight:
+	@echo "Starting lightweight Health Dashboard services..."
+	docker-compose -f docker-compose.lightweight.yml up -d
+
+down-lightweight:
+	@echo "Stopping lightweight Health Dashboard services..."
+	docker-compose -f docker-compose.lightweight.yml down
+
 build-frontend:
 	@echo "Building frontend image with optimizations..."
 	DOCKER_BUILDKIT=1 docker build --target production -t health-dashboard-frontend:latest ./frontend
