@@ -1,5 +1,5 @@
 # Ultra-aggressive .dockerignore for 2GB servers
-# Exclude everything except essential build files
+# Exclude unnecessary files but keep essential build files
 
 # Dependencies
 node_modules
@@ -123,7 +123,6 @@ docker-compose*
 .eslintrc*
 .prettierrc*
 .babelrc*
-tsconfig.json
 jest.config.js
 webpack.config.js
 rollup.config.js
@@ -135,17 +134,14 @@ rollup.config.js
 *.tsbuildinfo
 
 # Package manager files
-package-lock.json
 yarn.lock
 pnpm-lock.yaml
 
 # Config files
-.npmrc
 .yarnrc
 .prettierrc
 .eslintrc
 .babelrc
-tsconfig.json
 jest.config.js
 
 # IDE configs
@@ -154,7 +150,6 @@ jest.config.js
 *.code-workspace
 
 # OS specific
-.DS_Store
 Thumbs.db
 ehthumbs.db
 Desktop.ini
@@ -203,10 +198,6 @@ Desktop.ini
 *.sqlite
 *.sqlite3
 
-# Log files
-*.log
-logs/
-
 # Cache directories
 .cache/
 .parcel-cache/
@@ -214,12 +205,3 @@ logs/
 .nuxt/
 dist/
 build/
-
-# Node modules (already excluded but explicit)
-node_modules/
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-
-# Everything else that's not essential
-*

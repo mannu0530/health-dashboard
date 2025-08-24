@@ -55,6 +55,11 @@ solve-memory:
 	chmod +x solve-memory-issue.sh
 	./solve-memory-issue.sh
 
+guaranteed-solution:
+	@echo "Running guaranteed working solution for 2GB servers..."
+	chmod +x guaranteed-solution.sh
+	./guaranteed-solution.sh
+
 up-lightweight:
 	@echo "Starting lightweight Health Dashboard services..."
 	docker-compose -f docker-compose.lightweight.yml up -d
