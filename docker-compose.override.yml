@@ -1,0 +1,50 @@
+version: '3.8'
+
+services:
+  # Frontend with fast build optimizations
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      cache_from:
+        - health-dashboard-frontend:latest
+      args:
+        BUILDKIT_INLINE_CACHE: 1
+        DOCKER_BUILDKIT: 1
+    environment:
+      - NODE_ENV=development
+      - CHOKIDAR_USEPOLLING=true
+      - FAST_REFRESH=true
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    command: npm start
+
+  # Backend with fast build optimizations
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+      target: production
+      cache_from:
+        - health-dashboard-backend:latest
+      args:
+        BUILDKIT_INLINE_CACHE: 1
+        DOCKER_BUILDKIT: 1
+    environment:
+      - ENVIRONMENT=development
+      - DEBUG=true
+    volumes:
+      - ./backend:/app
+      - /app/__pycache__
+    command: uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+
+  # Development database with faster startup
+  postgres:
+    environment:
+      - POSTGRES_HOST_AUTH_METHOD=trust
+    command: postgres -c shared_preload_libraries=pg_stat_statements -c pg_stat_statements.track=all
+
+  # Development Redis with persistence disabled for speed
+  redis:
+    command: redis-server --save "" --appendonly no

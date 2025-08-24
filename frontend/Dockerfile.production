@@ -1,3 +1,4 @@
+# syntax=docker/dockerfile:1.4
 # Build stage with optimized caching
 FROM node:18-alpine AS deps
 
@@ -10,10 +11,11 @@ WORKDIR /app
 # Copy package files first for better layer caching
 COPY package*.json ./
 
-# Install dependencies with clean cache
-RUN npm ci --only=production --silent && npm cache clean --force
+# Install dependencies with clean cache and production optimization
+RUN npm ci --only=production --silent \
+    && npm cache clean --force
 
-# Build stage
+# Build stage with dependency caching
 FROM node:18-alpine AS build
 
 # Set work directory
@@ -32,6 +34,7 @@ COPY . .
 ENV NODE_ENV=production
 ENV GENERATE_SOURCEMAP=false
 ENV CI=true
+ENV DISABLE_ESLINT_PLUGIN=true
 
 # Build the application with optimizations
 RUN npm run build

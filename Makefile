@@ -37,6 +37,26 @@ build:
 	@echo "Building Docker images..."
 	docker-compose build
 
+build-fast:
+	@echo "Building Docker images with BuildKit optimizations..."
+	DOCKER_BUILDKIT=1 docker-compose build --parallel
+
+build-frontend:
+	@echo "Building frontend image with optimizations..."
+	DOCKER_BUILDKIT=1 docker build --target production -t health-dashboard-frontend:latest ./frontend
+
+build-backend:
+	@echo "Building backend image with optimizations..."
+	DOCKER_BUILDKIT=1 docker build --target production -t health-dashboard-backend:latest ./backend
+
+build-backend-dev:
+	@echo "Building backend image for development..."
+	DOCKER_BUILDKIT=1 docker build -t health-dashboard-backend:dev ./backend
+
+build-backend-prod:
+	@echo "Building backend image for production..."
+	DOCKER_BUILDKIT=1 docker build --target production -t health-dashboard-backend:production ./backend
+
 up:
 	@echo "Starting Health Dashboard services..."
 	docker-compose up -d
